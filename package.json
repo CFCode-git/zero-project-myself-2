@@ -1,0 +1,11 @@
+{
+  "name": "zero-project-myself-2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^5.35.1",
+    "webpack-cli": "3",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
