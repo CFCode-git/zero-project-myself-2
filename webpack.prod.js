@@ -3,6 +3,7 @@ const common = require('./webpack.common.js')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const path = require('path')
 
 module.exports = merge(common, {
@@ -112,15 +113,16 @@ module.exports = merge(common, {
     //   })
     // ]
     minimizer:[
-      new OptimizeCssAssetsPlugin({
-        cssProcessor: require('cssnano'),
-        cssProcessorOptions: {
-          safe: true,
-          autoprefixer: false,
-          discardComments: {removeAll: true},
-          canPrint: true
-        }
-      }),
+      // new OptimizeCssAssetsPlugin({
+      //   cssProcessor: require('cssnano'),
+      //   cssProcessorOptions: {
+      //     safe: true,
+      //     autoprefixer: false,
+      //     discardComments: {removeAll: true},
+      //     canPrint: true
+      //   }
+      // }),
+      new CssMinimizerPlugin(),
       '...' // 可以用 ... 访问默认值放在这里，防止覆盖
     ]
   }
