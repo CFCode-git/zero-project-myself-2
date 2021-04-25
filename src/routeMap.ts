@@ -1,7 +1,7 @@
 import {lazy} from 'react';
+import antdPage from '@views/antd-page/antd-page';
 
 const usualPage = lazy(() => import(/* webpackChunkName:'usual-page' */ '@views/usual-page/usual-page'));
-const antdPage = lazy(() => import(/* webpackChunkName:'antd-page' */ '@views/antd-page/antd-page'));
 const photoPage = lazy(() => import(/* webpackChunkName:'photo-page' */ '@views/photo-page/photo-page'));
 
 const routeMap = [
