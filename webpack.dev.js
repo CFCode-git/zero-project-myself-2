@@ -4,6 +4,9 @@ const common = require('./webpack.common.js')
 module.exports = merge(common, {
   mode: 'development',
   devtool: 'source-map',
+  cache:{
+    type:'memory'
+  },
   entry: {
     index: './src/index.tsx'
   },

@@ -1,17 +1,22 @@
 const {merge} = require('webpack-merge')
 const common = require('./webpack.common.js')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const path = require('path')
 
 module.exports = merge(common, {
   mode: 'production',
+  cache: {
+    type: 'filesystem'
+  },
   entry: {
     index: './src/index.tsx'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename:'[name].[chunkhash].js',
-    chunkFilename:'[name].[chunkhash].js'
+    filename: '[name].[chunkhash].js',
+    chunkFilename: '[name].[chunkhash].js'
   },
   module: {
     rules: [
@@ -55,11 +60,20 @@ module.exports = merge(common, {
       },
     ],
   },
-  plugins:[
+  plugins: [
     new MiniCssExtractPlugin({
-      filename:'[name].[contenthash].css',
-      chunkFilename:'[name].[contenthash].css',
-    })
+      filename: '[name].[contenthash].css',
+      chunkFilename: '[name].[contenthash].css',
+    }),
+    // new OptimizeCssAssetsPlugin({
+    //   cssProcessor: require('cssnano'),
+    //   cssProcessorOptions: {
+    //     safe: true,
+    //     autoprefixer: false,
+    //     discardComments: {removeAll: true},
+    //     canPrint: true
+    //   }
+    // })
   ],
   optimization:{
     moduleIds:'deterministic',
@@ -71,16 +85,43 @@ module.exports = merge(common, {
           minSize:0,
           test:/[\\/]node_modules[\\/]/,
           name:'vendors',
-          chunks:'all'
+          chunks: 'all'
         },
-        common:{
+        common: {
           priority: 5,
-          minSize:0,
-          minChunks:2,
-          chunks:'all',
-          name:'common'
+          minSize: 0,
+          minChunks: 2,
+          chunks: 'all',
+          name: 'common'
         }
       }
-    }
+    },
+    // minimizer: [
+    //   new TerserPlugin({
+    //     parallel: true,
+    //   }),
+    // 不能将 OptimizeCssAssetsPlugin 配置在这里，否则需要同时配置 terser-plugin；minimizer 的配置会覆盖 webpack 默认的配置 https://webpack.docschina.org/configuration/optimization/#optimizationminimize
+    //   new OptimizeCssAssetsPlugin({
+    //     cssProcessor: require('cssnano'),
+    //     cssProcessorOptions: {
+    //       safe: true,
+    //       autoprefixer: false,
+    //       discardComments: {removeAll: true},
+    //       canPrint: true
+    //     }
+    //   })
+    // ]
+    minimizer:[
+      new OptimizeCssAssetsPlugin({
+        cssProcessor: require('cssnano'),
+        cssProcessorOptions: {
+          safe: true,
+          autoprefixer: false,
+          discardComments: {removeAll: true},
+          canPrint: true
+        }
+      }),
+      '...' // 可以用 ... 访问默认值放在这里，防止覆盖
+    ]
   }
 })
