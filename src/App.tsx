@@ -7,8 +7,9 @@ import {
   Route
 } from 'react-router-dom';
 import routeMap from './routeMap';
-// import {Button} from 'antd';
 import './index.scss';
+// @ts-ignore
+// const FederationComponent = React.lazy(() => import('project2/federation'));
 
 const App = () => {
   return (
@@ -32,8 +33,11 @@ const App = () => {
           }
           </Switch>
         </Suspense>
+
+        {/*<Suspense fallback={<div>loading...</div>}>*/}
+          {/*<FederationComponent/>*/}
+        {/*</Suspense>*/}
       </Router>
-      {/*<Button>hi</Button>*/}
     </>
   );
 };

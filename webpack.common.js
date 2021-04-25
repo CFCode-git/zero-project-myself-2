@@ -1,5 +1,8 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+// const {ModuleFederationPlugin} = require('webpack').container
+
+
 module.exports = {
   // cache: {
   //   type: 'filesystem',
@@ -46,7 +49,13 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html'
-    })
+    }),
+  //   new ModuleFederationPlugin({
+  //     name:'project',
+  //     remotes:{
+  //       'project2':'project2@http://localhost:8888/federation.js'
+  //     }
+  //   })
   ],
   devServer: {
     historyApiFallback: true,
